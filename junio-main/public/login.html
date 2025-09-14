@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar sesión</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen px-4">
+  <h2 class="text-2xl font-bold mb-4">Iniciar sesión</h2>
+  <form method="POST" action="/login" class="flex flex-col gap-4 w-11/12 max-w-sm">
+    <div>
+      <label>Usuario:</label>
+      <input type="text" name="usuario" required class="w-full p-2 text-black rounded" />
+    </div>
+    <button type="submit" class="bg-blue-500 hover:bg-blue-600 py-2 px-4 rounded">Entrar</button>
+  </form>
+
+  <!-- Overlay de error de sesión activa (pantalla completa opaca) -->
+  <div id="mensaje-error" class="hidden fixed inset-0 bg-white flex items-center justify-center z-50">
+    <p class="text-red-600 text-4xl font-extrabold text-center px-6">
+      Ya hay una sesión activa en otro dispositivo.<br>Tu sesión anterior ha sido cerrada.
+    </p>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+
+    // Usuario no encontrado
+    if (params.get('error') === '1') {
+      const msg = document.createElement("p");
+      msg.textContent = "⚠️ Usuario no encontrado";
+      msg.className = "text-red-500 mt-4";
+      document.body.appendChild(msg);
+    }
+
+    // Sesión activa detectada
+    if (params.get('error') === 'sesion') {
+      document.getElementById('mensaje-error').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
+
